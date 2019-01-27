@@ -20,8 +20,12 @@ namespace Employees.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        public DbSet<Company> Companies { get; set; }
+        public DbSet<Employee> Employees { get; set; }
+        public DbSet<Skill> Skills { get; set; }
+
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("Data Source=DESKTOP-2PCN12V\\SQLEXPRESS;Initial Catalog=MyDatabase;Integrated Security=True", throwIfV1Schema: false)
         {
         }
 
