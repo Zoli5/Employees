@@ -20,5 +20,58 @@ namespace Employees.Controllers.Api
 
             return Ok(companiesQuery.ToList());
         }
+
+        // GET: /api/company/id
+        public IHttpActionResult GetCompany(int id)
+        {
+            var companyQuery = _context.Companies.SingleOrDefault(c => c.Id == id);
+
+            if (companyQuery == null)
+                return NotFound();
+
+            return Ok(companyQuery);
+        }
+
+        [HttpPost]
+        public IHttpActionResult CreateCompany(Company company)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            _context.Companies.Add(company);
+            _context.SaveChanges();
+
+            return Created(new Uri(Request.RequestUri + "/" + company.Id), company);
+        }
+
+        [HttpPut]
+        public IHttpActionResult UpdateCompany(int id, Company company)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var companyInDb = _context.Companies.SingleOrDefault(c => c.Id == id);
+
+            if (companyInDb == null)
+                return NotFound();
+
+            _context.SaveChanges();
+
+            return Ok();
+        }
+
+        [HttpDelete]
+        public IHttpActionResult DeleteCompany(int id)
+        {
+            var companyInDb = _context.Companies.SingleOrDefault(c => c.Id == id);
+
+            if (companyInDb == null)
+                return NotFound();
+
+            _context.Companies.Remove(companyInDb);
+            _context.SaveChanges();
+
+            return Ok();
+        }
     }
 }

@@ -13,12 +13,65 @@ namespace Employees.Controllers.Api
             _context = new ApplicationDbContext();
         }
 
-        // GET: /api/companies
+        // GET: /api/skills
         public IHttpActionResult GetSkills()
         {
             var skillsQuery = _context.Skills;
 
             return Ok(skillsQuery.ToList());
+        }
+
+        // GET: /api/skill/id
+        public IHttpActionResult GetSkill()
+        {
+            var skillQuery = _context.Skills.SingleOrDefault(c => c.Id == id);
+
+            if (skillQuery == null)
+                return NotFound();
+
+            return Ok(skillQuery);
+        }
+
+        [HttpPost]
+        public IHttpActionResult CreateSkill(Skill skill)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            _context.Skills.Add(skill);
+            _context.SaveChanges();
+
+            return Created(new Uri(Request.RequestUri + "/" + skill.Id), skill);
+        }
+
+        [HttpPut]
+        public IHttpActionResult UpdateSkill(int id, Skill skill)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var skillInDb = _context.Skills.SingleOrDefault(c => c.Id == id);
+
+            if (skillInDb == null)
+                return NotFound();
+
+            _context.SaveChanges();
+
+            return Ok();
+        }
+
+        [HttpDelete]
+        public IHttpActionResult DeleteSkill(int id)
+        {
+            var skillInDb = _context.Skills.SingleOrDefault(c => c.Id == id);
+
+            if (skillInDb == null)
+                return NotFound();
+
+            _context.Skills.Remove(skillInDb);
+            _context.SaveChanges();
+
+            return Ok();
         }
     }
 }
