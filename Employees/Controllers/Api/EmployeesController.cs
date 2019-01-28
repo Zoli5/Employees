@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Http;
 using Employees.Models;
 
@@ -54,6 +55,15 @@ namespace Employees.Controllers.Api
 
             if (employeeInDb == null)
                 return NotFound();
+
+            employeeInDb.Address = string.IsNullOrEmpty(employee.Address) ? employeeInDb.Address : employee.Address;
+            employeeInDb.CompanyId = string.IsNullOrEmpty(employee.CompanyId.ToString()) ? employeeInDb.CompanyId : employee.CompanyId;
+            employeeInDb.Dob = string.IsNullOrEmpty(employee.Dob.ToString()) ? employeeInDb.Dob : employee.Dob;
+            employeeInDb.Email = string.IsNullOrEmpty(employee.Email) ? employeeInDb.Email : employee.Email;
+            employeeInDb.Gender = string.IsNullOrEmpty(employee.Gender) ? employeeInDb.Gender : employee.Gender;
+            employeeInDb.IdCardNumber = string.IsNullOrEmpty(employee.IdCardNumber) ? employeeInDb.IdCardNumber : employee.IdCardNumber;
+            employeeInDb.PhoneNumber = string.IsNullOrEmpty(employee.PhoneNumber) ? employeeInDb.PhoneNumber : employee.PhoneNumber;
+            employeeInDb.Name = string.IsNullOrEmpty(employee.Name) ? employeeInDb.Name : employee.Name;
 
             _context.SaveChanges();
 

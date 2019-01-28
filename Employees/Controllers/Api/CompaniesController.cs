@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Http;
 using Employees.Models;
 
@@ -54,6 +55,11 @@ namespace Employees.Controllers.Api
 
             if (companyInDb == null)
                 return NotFound();
+
+            companyInDb.Address = string.IsNullOrEmpty(company.Address) ? companyInDb.Address : company.Address;
+            companyInDb.Email = string.IsNullOrEmpty(company.Email) ? companyInDb.Email : company.Email;
+            companyInDb.Name = string.IsNullOrEmpty(company.Name) ? companyInDb.Name : company.Name;
+            companyInDb.PhoneNumber = string.IsNullOrEmpty(company.PhoneNumber) ? companyInDb.PhoneNumber : company.PhoneNumber;
 
             _context.SaveChanges();
 

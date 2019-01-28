@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Http;
 using Employees.Models;
 
@@ -22,7 +23,7 @@ namespace Employees.Controllers.Api
         }
 
         // GET: /api/skill/id
-        public IHttpActionResult GetSkill()
+        public IHttpActionResult GetSkill(int id)
         {
             var skillQuery = _context.Skills.SingleOrDefault(c => c.Id == id);
 
@@ -54,6 +55,9 @@ namespace Employees.Controllers.Api
 
             if (skillInDb == null)
                 return NotFound();
+
+            skillInDb.Description = string.IsNullOrEmpty(skill.Description) ? skillInDb.Description : skill.Description;
+            skillInDb.EmployeeId = string.IsNullOrEmpty(skill.EmployeeId.ToString()) ? skillInDb.EmployeeId : skill.EmployeeId;
 
             _context.SaveChanges();
 
