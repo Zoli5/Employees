@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Http;
 using Employees.Models;
@@ -19,7 +20,7 @@ namespace Employees.Controllers.Api
         {
             var employeesQuery = _context.Employees;
 
-            return Ok(employeesQuery.ToList());
+            return Ok(employeesQuery.Include(e => e.Company).ToList());
         }
 
         // GET: /api/employee/id

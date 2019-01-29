@@ -1,0 +1,74 @@
+﻿@model IEnumerable<Employees.Models.Employee>
+
+@{
+    ViewBag.Title = "Employees";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Employees</h2>
+
+<table id="employees" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th>PhoneNumber</th>
+            <th>Email</th>
+            <th>Date Of Birth</th>
+            <th>Gender</th>
+            <th>IdCardNumber</th>
+            <th>Company</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            var table = $("#employees").DataTable({
+                ajax: {
+                    url: "/api/employees",
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "Id",
+                    },
+                    {
+                        data: "Name",
+                    },
+                    {
+                        data: "Address"
+                    },
+					{
+                        data: "PhoneNumber"
+                    },
+					{
+                        data: "Email"
+                    },
+                    {
+                        data: "Dob"
+                    },
+                    {
+                        data: "Gender"
+                    },
+                    {
+                        data: "IdCardNumber"
+                    },
+                    {
+                        data: "Company.Name",
+                        render: function (data) {
+                            if (data == null) {
+                                return "";
+                            } else {
+                                return data;
+                            }
+                        }
+                    }
+                ]
+            });
+        });
+    </script>
+}
