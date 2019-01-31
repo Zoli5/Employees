@@ -7,10 +7,13 @@
 
 <h2>Employees</h2>
 
+<p>
+    @Html.ActionLink("New Employee", "New", "Employees", null, new { @class = "btn btn-primary" })
+</p>
+
 <table id="employees" class="table table-bordered table-hover">
     <thead>
         <tr>
-            <th>Id</th>
             <th>Name</th>
             <th>Address</th>
             <th>PhoneNumber</th>
@@ -19,6 +22,7 @@
             <th>Gender</th>
             <th>IdCardNumber</th>
             <th>Company</th>
+            <th>Delete</th>
         </tr>
     </thead>
     <tbody></tbody>
@@ -34,31 +38,31 @@
                 },
                 columns: [
                     {
-                        data: "Id",
+                        data: "name",
+                        render: function (data, type, employee) {
+                            return "<a href='/employees/edit/" + employee.id + "'>" + employee.name + "</a>";
+                        }
                     },
                     {
-                        data: "Name",
-                    },
-                    {
-                        data: "Address"
+                        data: "address"
                     },
 					{
-                        data: "PhoneNumber"
+                        data: "phoneNumber"
                     },
 					{
-                        data: "Email"
+                        data: "email"
                     },
                     {
-                        data: "Dob"
+                        data: "dob"
                     },
                     {
-                        data: "Gender"
+                        data: "gender"
                     },
                     {
-                        data: "IdCardNumber"
+                        data: "idCardNumber"
                     },
                     {
-                        data: "Company.Name",
+                        data: "company.name",
                         render: function (data) {
                             if (data == null) {
                                 return "";
@@ -66,9 +70,34 @@
                                 return data;
                             }
                         }
+                    },
+                    {
+                        data: "id",
+                        render: function (data) {
+                            return "<button class='btn-link js-delete' data-employee-id=" + data + ">Delete</button>";
+                        }
                     }
                 ]
             });
+
+            $("#employees").on("click",
+                ".js-delete",
+                function () {
+                    var button = $(this);
+
+                    bootbox.confirm("Are you sure you want to delete this employee?",
+                        function (result) {
+                            if (result) {
+                                $.ajax({
+                                    url: "/api/employees/" + button.attr("data-employee-id"),
+                                    method: "DELETE",
+                                    success: function () {
+                                        table.row(button.parents("tr")).remove().draw();
+                                    }
+                                });
+                            }
+                        });
+                });
         });
     </script>
 }

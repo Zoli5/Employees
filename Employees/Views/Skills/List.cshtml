@@ -12,7 +12,6 @@
 <table id="skills" class="table table-bordered table-hover">
     <thead>
         <tr>
-            <th>Id</th>
             <th>Description</th>
             <th>Employee Name</th>
         </tr>
@@ -31,13 +30,10 @@
                 },
                 columns: [
                     {
-                        data: "Id",
+                        data: "description",
                     },
                     {
-                        data: "Description",
-                    },
-                    {
-                        data: "Employee.Name"
+                        data: "employee.name"
                     }
                 ]
             });
