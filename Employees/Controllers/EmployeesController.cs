@@ -40,7 +40,7 @@ namespace Employees.Controllers
 
         public ActionResult Edit(int id)
         {
-            var employee = _context.Employees.SingleOrDefault(c => c.Id == id);
+            var employee = _context.Employees.SingleOrDefault(e => e.Id == id);
 
             if (employee == null)
                 return HttpNotFound();
@@ -71,7 +71,7 @@ namespace Employees.Controllers
             }
             else
             {
-                var employeeInDb = _context.Employees.Single(c => c.Id == employee.Id);
+                var employeeInDb = _context.Employees.Single(e => e.Id == employee.Id);
                 employeeInDb.Name = employee.Name;
                 employeeInDb.PhoneNumber = employee.PhoneNumber;
                 employeeInDb.Email = employee.Email;

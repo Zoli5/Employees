@@ -14,6 +14,7 @@
         <tr>
             <th>Description</th>
             <th>Employee Name</th>
+            <th>Delete</th>
         </tr>
     </thead>
     <tbody>
@@ -31,12 +32,40 @@
                 columns: [
                     {
                         data: "description",
+                        render: function (data, type, skill) {
+                            return "<a href='/employees/edit/" + skill.id + "'>" + skill.description + "</a>";
+                        }
                     },
                     {
                         data: "employee.name"
+                    },
+                    {
+                        data: "id",
+                        render: function (data) {
+                            return "<button class='btn-link js-delete' data-skill-id=" + data + ">Delete</button>";
+                        }
                     }
                 ]
             });
+
+            $("#skills").on("click",
+                ".js-delete",
+                function () {
+                    var button = $(this);
+
+                    bootbox.confirm("Are you sure you want to delete this skill?",
+                        function (result) {
+                            if (result) {
+                                $.ajax({
+                                    url: "/api/skills/" + button.attr("data-skill-id"),
+                                    method: "DELETE",
+                                    success: function () {
+                                        table.row(button.parents("tr")).remove().draw();
+                                    }
+                                });
+                            }
+                        });
+                });
         });
     </script>
 }
