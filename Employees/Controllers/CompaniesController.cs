@@ -24,6 +24,11 @@ namespace Employees.Controllers
             return View("List");
         }
 
+        public ActionResult Summary()
+        {
+            return View("Summary");
+        }
+
         public ActionResult Details(int id)
         {
             var company = _context.Companies.SingleOrDefault(c => c.Id == id);

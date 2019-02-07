@@ -14,7 +14,9 @@ namespace Employees
                         "~/scripts/bootbox.js",
                         "~/Scripts/respond.js",
                         "~/scripts/datatables/jquery.datatables.js",
-                        "~/scripts/datatables/datatables.bootstrap.js"
+                        "~/scripts/datatables/datatables.bootstrap.js",
+                        "~/scripts/kendo/kendo.all.min.js",
+                        "~/scripts/kendo/jszip.min.js"
                       ));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
@@ -28,7 +30,12 @@ namespace Employees
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css",
-                      "~/content/datatables/css/datatables.bootstrap.css"));
+                      "~/content/datatables/css/datatables.bootstrap.css",
+                      "~/Content/kendo.default.min.css",
+                      "~/Content/kendo.common.min.css", 
+                      "~/Content/kendo.rtl.min.css", 
+                      "~/Content/kendo.default.mobile.min.css"
+                      ));
         }
     }
 }

@@ -22,6 +22,12 @@ namespace Employees
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            config.Routes.MapHttpRoute(
+                name: "AdvancedApi",
+                routeTemplate: "api/{controller}/{action}/{companyId}",
+                defaults: new { companyId = RouteParameter.Optional }
+            );
         }
     }
 }

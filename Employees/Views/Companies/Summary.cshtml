@@ -1,0 +1,111 @@
+﻿@{
+    ViewBag.Title = "Summary";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+    <p></p>
+
+    <h2>Summary</h2>
+
+    <div id="grid"></div>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            var element = $("#grid").kendoGrid({
+                dataSource: {
+                    dataType: "json",
+                    transport: {
+                        read: "/api/companies"
+                    },
+                    pageSize: 25,
+                    serverPaging: true,
+                    serverSorting: true
+                },
+                height: 800,
+                pageable: true,
+                detailInit: detailInit,
+                dataBound: function () {
+                    this.expandRow(this.tbody.find("tr.k-master-row").first());
+                },
+                columns: [
+                    {
+                        field: "name",
+                        title: "Company Name",
+                        width: "110px"
+                    },
+                    {
+                        field: "address",
+                        title: "Address",
+                        width: "110px"
+                    },
+                    {
+                        field: "phoneNumber",
+                        title: "Phone Number",
+                        width: "110px"
+                    },
+                    {
+                        field: "email",
+                        title: "E-mail",
+                        width: "110px"
+                    }
+                ]
+            });
+        });
+
+        function detailInit(e) {
+            $("<div/>").appendTo(e.detailCell).kendoGrid({
+                dataSource: {
+                    dataType: "json",
+                    transport: {
+                        read: "/api/employees/withskills/" + e.data.id
+                    },
+                    serverPaging: true,
+                    serverFiltering: true,
+                    pageSize: 10,
+                },
+                scrollable: false,
+                pageable: true,
+                columns: [
+                    {
+                        field: "employee.name",
+                        title: "Name",
+                        width: "110px"
+                    },
+                    {
+                        field: "employee.address",
+                        title: "Address",
+                        width: "110px"
+                    },
+                    {
+                        field: "employee.phoneNumber",
+                        title: "Phone Number",
+                        width: "110px"
+                    },
+                    {
+                        field: "employee.email",
+                        title: "E-mail",
+                        width: "110px"
+                    },
+                    {
+                        field: "skills",
+                        template: function (dataItem) {
+                            var list = "";
+                            for (var i = 0; i < dataItem.skills.length; i++) {
+                                if (list == "") {
+                                    list = dataItem.skills[i];
+                                } else {
+                                    list = list + ", " + dataItem.skills[i];
+                                }
+                                
+                            } 
+                            return list;
+                        },
+                        title: "Skills",
+                        width: "110px"
+                    }
+                ]
+            });
+        }
+    </script>
+}

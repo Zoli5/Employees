@@ -26,12 +26,24 @@ namespace Employees.Controllers.Api
         // GET: /api/employee/id
         public IHttpActionResult GetEmployee(int id)
         {
-            var employeeQuery = _context.Employees.SingleOrDefault(c => c.Id == id);
+            var employeeQuery = _context.Employees.SingleOrDefault(e => e.Id == id);
 
             if (employeeQuery == null)
                 return NotFound();
 
             return Ok(employeeQuery);
+        }
+
+        [HttpGet]
+        [ActionName("withskills")]
+        public IHttpActionResult GetEmployeesWithSkills(int companyId)
+        {
+            var employeesQuery = _context.Employees.Join(_context.Skills, e => e.Id, s => s.EmployeeId, (e, s) => new { employee = e, skills = s}).GroupBy(
+                e => e.employee,
+                e => e.skills.Description,
+                (key, g) => new { employee = key, skills = g.ToList() }); ;
+
+            return Ok(employeesQuery.Where(c => c.employee.CompanyId == companyId).ToList());
         }
 
         [HttpPost]
